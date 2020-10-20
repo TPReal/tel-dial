@@ -67,7 +67,7 @@ bool processAscii(int c,int v){
     SerialUSB.print(lZeros);
     SerialUSB.println("]");
   }
-  if(lZeros>=0){
+  if(lZeros==0||lZeros==2||lZeros==4){
     auto heldIter=ascii.held.find(v);
     bool held=heldIter!=ascii.held.end();
     if(held){
@@ -82,43 +82,43 @@ bool processAscii(int c,int v){
         ascii.shortHeld.erase(shortHeldIter);
       return true;
     }
-    if(!lZeros){
-      if(SDEBUG){
-        SerialUSB.print("Type #");
-        SerialUSB.println(v);
-      }
-      Keyboard.write(v);
-      for(int i=ascii.shortHeld.size()-1;i>=0;i--){
-        int toRelease=ascii.shortHeld[i];
-        if(SDEBUG){
-          SerialUSB.print("Release #");
-          SerialUSB.println(toRelease);
-        }
-        Keyboard.release(toRelease);
-        ascii.held.erase(ascii.held.find(toRelease));
-      }
-      ascii.shortHeld.clear();
-      return true;
+  }
+  if(lZeros==0){
+    if(SDEBUG){
+      SerialUSB.print("Type #");
+      SerialUSB.println(v);
     }
-    if(lZeros==2){
+    Keyboard.write(v);
+    for(int i=ascii.shortHeld.size()-1;i>=0;i--){
+      int toRelease=ascii.shortHeld[i];
       if(SDEBUG){
-        SerialUSB.print("Short hold #");
-        SerialUSB.println(v);
+        SerialUSB.print("Release #");
+        SerialUSB.println(toRelease);
       }
-      Keyboard.press(v);
-      ascii.held.insert(v);
-      ascii.shortHeld.push_back(v);
-      return true;
+      Keyboard.release(toRelease);
+      ascii.held.erase(ascii.held.find(toRelease));
     }
-    if(lZeros==4){
-      if(SDEBUG){
-        SerialUSB.print("Hold #");
-        SerialUSB.println(v);
-      }
-      Keyboard.press(v);
-      ascii.held.insert(v);
-      return true;
+    ascii.shortHeld.clear();
+    return true;
+  }
+  if(lZeros==2){
+    if(SDEBUG){
+      SerialUSB.print("Short hold #");
+      SerialUSB.println(v);
     }
+    Keyboard.press(v);
+    ascii.held.insert(v);
+    ascii.shortHeld.push_back(v);
+    return true;
+  }
+  if(lZeros==4){
+    if(SDEBUG){
+      SerialUSB.print("Hold #");
+      SerialUSB.println(v);
+    }
+    Keyboard.press(v);
+    ascii.held.insert(v);
+    return true;
   }
   return false;
 }
