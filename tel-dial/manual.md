@@ -54,8 +54,9 @@ Example keys, and the sequences of dialled digits to emulate a short press on th
 ### Holding down keys
 To press and hold down a key, dial its sequence prefixed with `00`. Any key held down in this way will be released after any sequence not prefixed with `00`.
 To hold a key permanently, prefix its sequence with `0000`. To release the key, dial its sequence (without the zeros prefix).
+
 > Example: To execute the keys sequence _Ctrl+(Shift+a, a)_, dial: `0000128001299797128`.
 
 > Note: Holding down is not available for keys with codes 0, 1 and 2.
 
-Switching to ASCII mode (even from the same mode) also releases all keys.
+Switching to (or from, or both) ASCII mode also releases all keys.
